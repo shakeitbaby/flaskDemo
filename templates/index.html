@@ -14,7 +14,7 @@
             <label class="form-check-label" for="checkbox_{{ todo.id }}">
                 {{ todo.item_desc }}
             </label>
-            <span style="font-size: 1em; color: #6c757d;">{{ todo.expire_date }}</span>
+            <div style="font-size: 1em; color: #6c757d; margin-top: 1em;">{{ todo.expire_date }}</div>
         </div>
     {% endfor %}
 </div>
@@ -26,8 +26,8 @@
 
     function handleComplete(id) {
         $.ajax({
-            type: "post",
-            url: "/complete/" + id,
+            type: "put",
+            url: "/todo/" + id,
             success: function (result) {
                 if (result.code == 200) window.location.href = '/'
                 // $('#div_'+id).hide()

@@ -1,13 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 <body>
-<form action="/todo/">
-<input name="item_desc"/>
-<button type="submit">Submit</button>
-</form>
+{% include 'common/nav.html' %}
+
+<div class="container" style="padding-top: 80px;">
+  <main>
+    <div class="row g-5">
+      <div class="col-md-7 col-lg-8" style="position: inherit;">
+        <form class="needs-validation" novalidate="" id="form" action="/todo/save" method="post">
+          <div class="row g-3">
+            <div class="col-sm-6 gap1" style="position: inherit;">
+              <label for="item_desc" class="form-label">Item desc: </label>
+              <input type="text" class="form-control" id="item_desc" name="item_desc" placeholder="" value="" required="">
+              <div class="invalid-feedback">
+                Valid item name is required.
+              </div>
+            </div>
+
+            <div class="col-sm-6 gap1" style="position: inherit;" id="expire_date_div">
+              <label for="expire_date" class="form-label">Expire date: </label>
+              <input type="text" class="form-control" id="expire_date" name="expire_date" placeholder="" value="" required="">
+              <div class="invalid-feedback">
+                Expire date is required.
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row fixed-buttom">
+            <button type="button" class="btn button-goodlooking" onclick="handleSubmit()">Submit!</button>
+          </div>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;" id="alertDiv">
+            <strong>Warning!</strong> You should input/choose the required item.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="handleDismiss()">x</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+{% include 'common/foot.html' %}
+<script type="text/javascript">
+  $(document).ready(()=>{
+      $('#expire_date').datepicker({language: 'zh-CN'})
+  })
+
+  function handleSubmit(){
+      if($('#item_desc').val()=='' || $('#expire_date').val()==''){
+          $('#alertDiv').toggle('slow', 'swing', function () {
+          })
+          return false
+      }
+      $('#form').submit()
+  }
+
+  function handleDismiss(){
+      $('#alertDiv').toggle('slow', 'swing', function () {
+      })
+  }
+
+  function handleChanged(val){
+      if(val=='0'){
+          $("#expire_date_div").show()
+      } else {
+          $("#expire_date_div").hide()
+          $("#expire_date_div").val('')
+      }
+  }
+</script>
 </body>
+<style>
+.gap1{
+    padding: 1em;
+}
+</style>
 </html>
