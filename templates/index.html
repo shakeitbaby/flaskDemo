@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Finish' em! ^v^ </title>
+    {% include 'common/nav.html' %}
+</head>
+<body>
+<div class="container" style="padding-bottom: 50px; padding-top: 80px;">
+    {% for todo in results %}
+        <div class="mb-3 task-card" id="div_{{ todo.id }}">
+            <input type="hidden" id="id" value="{{ todo.id }}">
+            <input type="checkbox" id="checkbox_{{ todo.id }}" onchange="handleComplete('{{ todo.id }}')">
+            <label class="form-check-label" for="checkbox_{{ todo.id }}">
+                {{ todo.item_desc }}
+            </label>
+            <span style="font-size: 1em; color: #6c757d;">{{ todo.expire_date }}</span>
+        </div>
+    {% endfor %}
+</div>
+{% include 'common/foot.html' %}
+</body>
+<script>
+    $(document).ready(function () {
+    })
+
+    function handleComplete(id) {
+        $.ajax({
+            type: "post",
+            url: "/complete/" + id,
+            success: function (result) {
+                if (result.code == 200) window.location.href = '/'
+                // $('#div_'+id).hide()
+            }
+        });
+    }
+</script>
+</html>
